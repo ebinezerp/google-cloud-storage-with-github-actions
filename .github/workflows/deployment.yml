@@ -47,6 +47,6 @@ jobs:
       - name: Authenticate with GKE Cluster
         run: |
           export USE_GKE_GCLOUD_AUTH_PLUGIN=True
-          sudo apt-get install google-cloud-sdk-gke-gcloud-auth-plugin
+          gcloud components install gke-gcloud-auth-plugin
           gcloud container clusters get-credentials cloud-storage-demo-with-action-flow --zone us-east1-b --project ambient-stack-376816
           kubectl cluster-info
