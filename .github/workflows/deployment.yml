@@ -57,6 +57,5 @@ jobs:
         run: |
           export USE_GKE_GCLOUD_AUTH_PLUGIN=True
           gcloud components install gke-gcloud-auth-plugin
-          gcloud auth login
           gcloud container clusters get-credentials cloud-storage-demo-with-action-flow --zone us-east1-b --project ambient-stack-376816
           kubectl cluster-info
