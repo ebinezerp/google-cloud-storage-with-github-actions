@@ -39,18 +39,15 @@ jobs:
 #          project_id: ambient-stack-376816 # Replace 'my-project' with your actual GCP project ID
 #        uses: 'google-github-actions/auth@v0.3.1'
         with:
-          create_credentials_file: 'true'
-          workload_identity_provider: 'projects/989138761973/locations/global/workloadIdentityPools/demo-project-test-identity'
+          workload_identity_project: ambient-stack-376816
+          workload_identity_sa: demo-kub-service-account
+          workload_identity_namespace: demo-namespace
           service_account: 'for-demo-workload-identity@ambient-stack-376816.iam.gserviceaccount.com'
-          project_id: ambient-stack-376816
 
       - name: Authenticate with GKE Cluster
         run: |
           export USE_GKE_GCLOUD_AUTH_PLUGIN=True
           gcloud components install gke-gcloud-auth-plugin
-          gcloud init
-          gcloud config set account ${{ secrets.GCLOUD_EMAIL }}
-          gcloud config set project ambient-stack-376816
-          gcloud auth activate-service-account ${{ secrets.GCLOUD_EMAIL }}
+          gcloud auth login
           gcloud container clusters get-credentials cloud-storage-demo-with-action-flow --zone us-east1-b --project ambient-stack-376816
           kubectl cluster-info
