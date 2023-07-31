@@ -41,7 +41,8 @@ jobs:
         with:
           create_credentials_file: 'true'
           workload_identity_provider: 'projects/989138761973/locations/global/workloadIdentityPools/demo-project-test-identity'
-          service_account: 'ambient-stack-376816'
+          service_account: 'for-demo-workload-identity'
+          project_id: ambient-stack-376816
 
       - name: Authenticate with GKE Cluster
         run: |
