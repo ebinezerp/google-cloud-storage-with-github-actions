@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gcloud-storage-demo
+  labels:
+    app: gcloud-storage-demo
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: gcloud-storage-demo
+  template:
+    metadata:
+      name: gcloud-storage-demo
+      labels:
+        app: gcloud-storage-demo
+    spec:
+      containers:
+        - name: Title
+          image: clipbook/gcloud-storage-demo:V1
+          imagePullPolicy: Always
+      restartPolicy: Always
+      

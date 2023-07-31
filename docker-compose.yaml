@@ -1,0 +1,20 @@
+version: "3.9"
+services:
+  app:
+    image: clipbook/gcloud-storage-demo:V1
+    container_name: backend-app
+    command: npm run start:local
+    ports:
+      - '3500:8080'
+    env_file:
+      - .env.local
+    volumes:
+      - /Users/ebinezer/personal-projects/gcloud-storage-learning:/app
+      - /app/node_modules
+    networks:
+      - demo-app-network
+
+
+
+networks:
+  demo-app-network:

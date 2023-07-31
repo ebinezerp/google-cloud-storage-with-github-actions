@@ -1,0 +1,46 @@
+name: Deployment
+on: [push]
+jobs:
+  backend-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_PASSWORD }}
+
+      - name: Build and push Docker image for Project 1
+        uses: docker/build-push-action@v2
+        with:
+          context: ./backend-application  # Set the context to the Project 1 directory
+          push: true
+          tags: clipbook/demo-backend-app:latest
+
+  gke-connect:
+    needs: [ backend-deploy ]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Google Cloud SDK
+#        uses: google-github-actions/setup-gcloud@v0.2.1
+#        with:
+#          service_account_key: ${{ secrets.GCLOUD_KEY_BASE64 }}
+#          project_id: ambient-stack-376816 # Replace 'my-project' with your actual GCP project ID
+        uses: 'google-github-actions/auth@v0.3.1'
+        with:
+          create_credentials_file: 'true'
+          workload_identity_provider: 'projects/989138761973/locations/global/workloadIdentityPools/demo-project-test-identity'
+          service_account: 'ambient-stack-376816'
+
+      - name: Authenticate with GKE Cluster
+        run: |
+          export USE_GKE_GCLOUD_AUTH_PLUGIN=True
+          gcloud components install gke-gcloud-auth-plugin
+          gcloud container clusters get-credentials autopilot-cluster-1 --region asia-south2 --project ambient-stack-376816
+          kubectl cluster-info
