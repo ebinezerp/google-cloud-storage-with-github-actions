@@ -16,9 +16,9 @@ jobs:
       - name: Build and push Docker image for Project 1
         uses: docker/build-push-action@v2
         with:
-          context: ./backend-application  # Set the context to the Project 1 directory
+          context: .  # Set the context to the Project 1 directory
           push: true
-          tags: clipbook/demo-backend-app:latest
+          tags: clipbook/google-storage-demo
 
   gke-connect:
     needs: [ backend-deploy ]
